@@ -372,8 +372,8 @@ class EsmForDPLM(EsmForMaskedLM):
         )
 
         prev_decoder_out['output_masks'] = self.get_non_special_sym_mask(
-                prev_decoder_out['output_tokens'], partial_masks=partial_masks
-            )
+            prev_decoder_out['output_tokens'], partial_masks=partial_masks
+        )
 
         for step in tqdm(range(max_iter), desc='Decoding'):
             # predict

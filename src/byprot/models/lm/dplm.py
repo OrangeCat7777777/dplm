@@ -50,6 +50,7 @@ class DiffusionProteinLanguageModel(nn.Module):
         if self.cfg.gradient_ckpt:
             self.net.supports_gradient_checkpointing = True
             self.net.gradient_checkpointing_enable()
+
     
     @classmethod
     def from_pretrained(cls, net_name, cfg_override={}, net_override={}, from_huggingface=True):
@@ -62,7 +63,7 @@ class DiffusionProteinLanguageModel(nn.Module):
             from pathlib import Path
             from collections import OrderedDict
             
-            cfg_path = Path(net_name).parents[1]
+            cfg_path = Path(net_name).parents[1] 
             cfg_path = Path(cfg_path, '.hydra', 'config.yaml')
             cfg = load_yaml_config(str(cfg_path)).model
             cfg.net.pretrain = False
@@ -75,7 +76,7 @@ class DiffusionProteinLanguageModel(nn.Module):
             # remove the module prefix "model."
             for k, v in pretrained_state_dict.items():
                 new_pretrained_state_dict[k[6:]] = v
-            model.load_state_dict(new_pretrained_state_dict, strict=False) 
+            model.load_state_dict(new_pretrained_state_dict, strict=False)
             return model
         else:
             # Load DPLM model checkpoint from huggingface

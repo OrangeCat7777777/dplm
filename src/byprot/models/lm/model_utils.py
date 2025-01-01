@@ -60,13 +60,16 @@ def get_net(cfg):
     ## stage 2: continue pretrain a diffusion language model based on the pretrained MLM
     if cfg.net.pretrain:
         pretrained_model_name_or_path = cfg.net.pretrained_model_name_or_path
-        is_local = os.path.isdir(pretrained_model_name_or_path)
-        if is_local:
+        # is_local = os.path.isdir(pretrained_model_name_or_path)
+        from_hf = True # [Li] a hack to load from local huggingface esm model
+        # if is_local:
+        if not from_hf:
             # load your pretrained MLM from local
             state_dict = torch.load(pretrained_model_name_or_path, map_location='cpu')['state_dict']
             net.load_state_dict(state_dict, strict=True)
         else:
             # or you can load a pretrained MLM from huggingface
+            # This seems to work for loading dplm as well
             ptrn_net = AutoModelForMaskedLM.from_pretrained(pretrained_model_name_or_path)
             net.load_state_dict(ptrn_net.state_dict(), strict=True)
             del ptrn_net

@@ -83,6 +83,20 @@ class DPLMTrainingTask(TaskLitModule):
     def build_model(self):
         log.info(f"Instantiating neural model <{self.hparams.model._target_}>")
         self.model = utils.instantiate_from_config(cfg=self.hparams.model, group='model')
+        
+        # [Li] Testing load from official checkpoint
+        # from byprot.models.lm.dplm import DiffusionProteinLanguageModel
+        # self.model = DiffusionProteinLanguageModel.from_pretrained('/ai/share/workspace/weil/ckpts/dplm/dplm_650m')
+        # self.model.train() # from_pretrain() returns model in eval status, need to switch to train
+        
+        # from byprot.models.lm.dplm import DiffusionProteinLanguageModel
+        # pretrained_model = DiffusionProteinLanguageModel.from_pretrained('/ai/share/workspace/weil/ckpts/dplm/dplm_650m')
+        # print(pretrained_model.state_dict())
+        # # print(pretrained_model.net)
+        # # print(pretrained_model.net.esm)
+        # exit()
+        # state_dict = torch.load(pretrained_model_name_or_path, map_location='cpu')['state_dict']
+        # net.load_state_dict(state_dict, strict=True)
 
     def build_criterion(self):
         self.criterion = utils.instantiate_from_config(cfg=self.hparams.criterion) 

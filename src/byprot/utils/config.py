@@ -121,6 +121,7 @@ def instantiate_from_config(cfg: OmegaConf, group=None, **override_kwargs):
         from . import registry
         _target_ = cfg.pop('_target_')
         target = registry.get_module(group_name=group, module_name=_target_)
+
         if target is None:
             raise KeyError(
                 f'{_target_} is not a registered <{group}> class [{registry.get_registered_modules(group)}].')
@@ -128,6 +129,7 @@ def instantiate_from_config(cfg: OmegaConf, group=None, **override_kwargs):
         log.info(f"    Resolving {group} <{_target_}> -> <{target}>")
 
         target_cls = get_obj_from_str(target)
+        # [Li] Bug could be in try block
         try:
             return target_cls(**cfg, **override_kwargs)
         except:

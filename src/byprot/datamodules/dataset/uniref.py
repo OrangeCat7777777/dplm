@@ -334,7 +334,9 @@ class DPLMCollater(object):
         # if you want to use the different vocab, 
         # please set the vocab path to the tokenizer_path
         if tokenizer_path is None:
-            self.alphabet = EsmTokenizer.from_pretrained('facebook/esm2_t30_150M_UR50D')
+            # self.alphabet = EsmTokenizer.from_pretrained('facebook/esm2_t30_150M_UR50D')
+            # [Li] I should expose tokenizer_path to config
+            self.alphabet = EsmTokenizer.from_pretrained('/ai/share/workspace/weil/ckpts/esm2_hf/esm2_t33_650M_UR50D')
         else:
             self.alphabet = EsmTokenizer.from_pretrained(tokenizer_path)
 
